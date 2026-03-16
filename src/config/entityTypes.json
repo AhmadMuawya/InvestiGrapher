@@ -1,0 +1,106 @@
+{
+  "person": {
+    "id": 1,
+    "name": "Person",
+    "icon": "fa-solid fa-user",
+    "color": "#6366f1",
+    "searchKey": "national_id",
+    "attributes": {
+      "first_name": "",
+      "last_name": "",
+      "gender": "",
+      "date_of_birth": "",
+      "birth_place": "",
+      "national_id": "",
+      "email": "",
+      "phone_number": ""
+    }
+  },
+  "transaction": {
+    "id": 2,
+    "name": "Transaction",
+    "icon": "fa-solid fa-money-bill-transfer",
+    "color": "#10b981",
+    "searchKey": "reference_number",
+    "attributes": {
+      "sender_first_name": "",
+      "sender_last_name": "",
+      "sender_national_id": "",
+      "sender_phone": "",
+      "sender_dob": "",
+      "sender_bank_name": "",
+      "sender_account_number": "",
+      "sender_account_type": "",
+      "receiver_first_name": "",
+      "receiver_last_name": "",
+      "receiver_national_id": "",
+      "receiver_phone": "",
+      "receiver_dob": "",
+      "receiver_bank_name": "",
+      "receiver_account_number": "",
+      "receiver_account_type": "",
+      "reason": "",
+      "amount": "",
+      "method": "",
+      "status": "",
+      "created_at": "",
+      "reference_number": "",
+      "transaction_id": ""
+    }
+  },
+  "account": {
+    "id": 3,
+    "name": "Account",
+    "icon": "fa-solid fa-building-columns",
+    "color": "#14b8a6",
+    "searchKey": "account_number",
+    "attributes": {
+      "bank_name": "",
+      "account_number": "",
+      "account_type": "",
+      "holder_first_name": "",
+      "holder_last_name": ""
+    }
+  },
+  "name": {
+    "id": 4,
+    "name": "Name",
+    "icon": "fa-solid fa-id-badge",
+    "color": "#f59e0b",
+    "searchKey": "first_name",
+    "attributes": {
+      "first_name": "",
+      "last_name": ""
+    }
+  },
+  "phone": {
+    "id": 5,
+    "name": "Phone",
+    "icon": "fa-solid fa-phone",
+    "color": "#0ea5e9",
+    "searchKey": "phone_number",
+    "attributes": {
+      "phone_number": ""
+    }
+  },
+  "national_id": {
+    "id": 6,
+    "name": "National ID",
+    "icon": "fa-solid fa-id-card",
+    "color": "#f43f5e",
+    "searchKey": "national_id",
+    "attributes": {
+      "national_id": ""
+    }
+  },
+  "email": {
+    "id": 7,
+    "name": "Email",
+    "icon": "fa-solid fa-envelope",
+    "color": "#8b5cf6",
+    "searchKey": "email",
+    "attributes": {
+      "email": ""
+    }
+  }
+}

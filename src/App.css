@@ -1,0 +1,89 @@
+/* Delete All button — positioned in control panel area */
+.delete-all-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 56px;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(30, 41, 59, 0.9);
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.delete-all-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Edge selection styling */
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #f59e0b !important;
+  stroke-width: 3 !important;
+}
+
+/* Node selection indicator */
+.react-flow__node.selected .node-icon-wrapper {
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.5);
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  backdrop-filter: blur(2px);
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(30, 41, 59, 0.95);
+  padding: 16px 24px;
+  border-radius: 10px;
+  color: #f59e0b;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.loading-spinner i {
+  font-size: 20px;
+}
+
+/* Empty start hint */
+.empty-hint {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.empty-hint i {
+  font-size: 48px;
+  opacity: 0.3;
+}

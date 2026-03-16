@@ -1,0 +1,110 @@
+/* ─── Entity Node ─── */
+.entity-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  cursor: grab;
+  z-index: 1;
+}
+
+.entity-node:hover {
+  z-index: 1000;
+}
+
+.node-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.entity-node:hover .node-icon-wrapper {
+  box-shadow: 0 0 18px var(--node-color, #6366f1);
+  transform: scale(1.08);
+}
+
+.node-name {
+  font-weight: 600;
+  font-size: 10px;
+  color: #e2e8f0;
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+/* ─── Hover Tooltip ─── */
+.node-tooltip {
+  position: absolute;
+  left: 50%;
+  background: rgba(30, 41, 59, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 5px 8px;
+  min-width: 100px;
+  max-width: 180px;
+  z-index: 2000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.tooltip-above {
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  animation: tooltipFadeUp 0.12s ease;
+}
+
+.tooltip-below {
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  animation: tooltipFadeDown 0.12s ease;
+}
+
+@keyframes tooltipFadeUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes tooltipFadeDown {
+  from { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 9px;
+  padding: 1px 0;
+  line-height: 1.3;
+}
+
+.tooltip-key {
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tooltip-val {
+  color: #cbd5e1;
+  font-family: monospace;
+  font-size: 9px;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
