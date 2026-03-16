@@ -1,16 +1,10 @@
-// OSINT Industries lookups — calls the API directly with api-key header
+// OSINT Industries lookups — calls /api/osint (proxied server-side)
 // Extracts found modules and flattens spec_format into dynamic attributes
 
-const OI_API_KEY = import.meta.env.VITE_OI_API_KEY;
-
 async function osintRequest(type, query) {
-  const res = await fetch('https://api.osint.industries/v2/request', {
+  const res = await fetch('/api/osint', {
     method: 'POST',
-    headers: {
-      'accept': 'application/json',
-      'content-type': 'application/json',
-      'api-key': OI_API_KEY,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       type,
       query,
