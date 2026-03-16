@@ -8,16 +8,14 @@ export default function EntityNode({ id, data, isConnectable }) {
   const [tooltipAbove, setTooltipAbove] = useState(true);
   const nodeRef = useRef(null);
 
-  // Only show non-empty attributes in tooltip
   const filledAttrs = Object.entries(entity.attributes).filter(
     ([, v]) => v && String(v).trim() !== '',
   );
 
-  // Determine tooltip position based on node position in viewport
+  // Flip tooltip below if node is near the top of viewport
   useEffect(() => {
     if (showTooltip && nodeRef.current) {
       const rect = nodeRef.current.getBoundingClientRect();
-      // If node is near the top of the screen, show tooltip below
       setTooltipAbove(rect.top > 120);
     }
   }, [showTooltip]);

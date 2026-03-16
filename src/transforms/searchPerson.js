@@ -1,13 +1,5 @@
-/**
- * searchPerson — port of getperson.py
- *
- * Takes an entity's attributes and searches the Supabase `person` table.
- * Column-aware matching:
- *   - If both first_name AND last_name are present → AND match (both must match)
- *   - If only one name field → search just that column
- *   - national_id, phone_number → exact match (eq)
- *   - email → exact match (eq)
- */
+// Searches the person table with column-aware matching
+// Both names → AND, single field → exact match
 import { BASE_URL, supabaseGet } from '../services/supabase';
 
 const COLUMNS_TO_RETURN = [
@@ -15,10 +7,6 @@ const COLUMNS_TO_RETURN = [
   'birth_place', 'national_id', 'email', 'phone_number',
 ];
 
-/**
- * @param {object} attributes — the source node's entity attributes
- * @returns {Promise<object[]>} array of person records
- */
 export default async function searchPerson(attributes) {
   const firstName = (attributes.first_name || '').trim();
   const lastName = (attributes.last_name || '').trim();
@@ -28,7 +16,7 @@ export default async function searchPerson(attributes) {
 
   const select = COLUMNS_TO_RETURN.join(',');
 
-  // If both first and last name → use AND (two separate query params)
+  // Both names present → AND match (both must match)
   if (firstName && lastName) {
     const url =
       `${BASE_URL}/person?select=${select}` +
@@ -37,7 +25,7 @@ export default async function searchPerson(attributes) {
     return supabaseGet(url);
   }
 
-  // Otherwise build OR conditions from whatever is available
+  // Build OR conditions from available fields
   const orConds = [];
   if (firstName) orConds.push(`first_name.eq.${encodeURIComponent(firstName)}`);
   if (lastName) orConds.push(`last_name.eq.${encodeURIComponent(lastName)}`);
@@ -47,7 +35,6 @@ export default async function searchPerson(attributes) {
 
   if (orConds.length === 0) return [];
 
-  // Single condition → no need for or()
   if (orConds.length === 1) {
     const url = `${BASE_URL}/person?select=${select}&${orConds[0].replace('.eq.', '=eq.')}`;
     return supabaseGet(url);

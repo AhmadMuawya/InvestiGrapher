@@ -14,5 +14,37 @@
     "functionName": "searchTransactions",
     "inputEntityIds": [1, 5, 6],
     "outputEntityId": 2
+  },
+  {
+    "id": 3,
+    "name": "Email Lookup (OI)",
+    "icon": "fa-solid fa-envelope-open-text",
+    "functionName": "emailLookup",
+    "inputEntityIds": [7],
+    "outputEntityId": 9
+  },
+  {
+    "id": 4,
+    "name": "Name Lookup (OI)",
+    "icon": "fa-solid fa-user-magnifying-glass",
+    "functionName": "nameLookup",
+    "inputEntityIds": [4],
+    "outputEntityId": 9
+  },
+  {
+    "id": 5,
+    "name": "Username Lookup (OI)",
+    "icon": "fa-solid fa-at",
+    "functionName": "usernameLookup",
+    "inputEntityIds": [8],
+    "outputEntityId": 9
+  },
+  {
+    "id": 6,
+    "name": "Phone Lookup (OI)",
+    "icon": "fa-solid fa-phone-flip",
+    "functionName": "phoneLookup",
+    "inputEntityIds": [5],
+    "outputEntityId": 9
   }
 ]

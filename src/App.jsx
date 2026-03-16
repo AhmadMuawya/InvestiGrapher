@@ -29,7 +29,6 @@ const defaultEdgeOptions = {
   style: { stroke: '#6366f1', strokeWidth: 2 },
 };
 
-// Helper: find the entity type key by ID number
 function entityKeyById(id) {
   return Object.entries(entityTypes).find(([, e]) => e.id === id)?.[0];
 }
@@ -53,7 +52,7 @@ function Flow() {
     [setEdges],
   );
 
-  // ── Helper: clamp menu position to viewport ──
+  // Clamp menu position to viewport
   const menuPosition = (clientX, clientY) => {
     const menuW = 200, menuH = 320;
     const vw = window.innerWidth, vh = window.innerHeight;
@@ -65,13 +64,11 @@ function Flow() {
     };
   };
 
-  // ── Double-click node → edit ──
   const onNodeDoubleClick = useCallback((event, node) => {
     event.stopPropagation();
     setEditModal({ nodeId: node.id, nodeData: node.data });
   }, []);
 
-  // ── Right-click on node ──
   const onNodeContextMenu = useCallback(
     (event, node) => {
       event.preventDefault();
@@ -89,7 +86,6 @@ function Flow() {
     [],
   );
 
-  // ── Right-click on canvas ──
   const onPaneContextMenu = useCallback(
     (event) => {
       event.preventDefault();
@@ -105,13 +101,11 @@ function Flow() {
 
   const onPaneClick = useCallback(() => setMenu(null), []);
 
-  // ── Edit entity ──
   const handleEditEntity = useCallback((nodeId, nodeData) => {
     setMenu(null);
     setEditModal({ nodeId, nodeData });
   }, []);
 
-  // ── Delete single entity ──
   const handleDeleteEntity = useCallback(
     (nodeId) => {
       setMenu(null);
@@ -121,11 +115,10 @@ function Flow() {
     [setNodes, setEdges],
   );
 
-  // ── Delete all descendants (BFS) ──
+  // BFS to collect and remove all descendants
   const handleDeleteDescendants = useCallback(
     (nodeId) => {
       setMenu(null);
-      // BFS to collect all descendant IDs
       const descendants = new Set();
       const queue = [nodeId];
       while (queue.length > 0) {
@@ -146,7 +139,6 @@ function Flow() {
     [edges, setNodes, setEdges],
   );
 
-  // ── Add child ──
   const handleAddChild = useCallback(
     (parentId, entityKey) => {
       setMenu(null);
@@ -179,7 +171,6 @@ function Flow() {
     [nodes, edges, nodeCounter, setNodes, setEdges],
   );
 
-  // ── Add standalone entity ──
   const handleAddStandalone = useCallback(
     (entityKey, position) => {
       setMenu(null);
@@ -194,13 +185,12 @@ function Flow() {
     [nodeCounter, setNodes],
   );
 
-  // ── Save edit ──
+  // Auto-updates label to "First Last" when both name fields are present
   const handleSaveEdit = useCallback(
     (nodeId, newLabel, newAttrs) => {
       setNodes((nds) =>
         nds.map((n) => {
           if (n.id !== nodeId) return n;
-          // Auto-compute label from first+last name if both present
           let finalLabel = newLabel;
           if (newAttrs.first_name && newAttrs.last_name) {
             finalLabel = `${newAttrs.first_name} ${newAttrs.last_name}`;
@@ -215,7 +205,6 @@ function Flow() {
     [setNodes],
   );
 
-  // ── Run transform ──
   const handleRunTransform = useCallback(
     async (sourceNodeId, transformDef) => {
       setMenu(null);
@@ -233,12 +222,10 @@ function Flow() {
           return;
         }
 
-        // Determine output entity type
         const outKey = entityKeyById(transformDef.outputEntityId);
         const outEntityDef = entityTypes[outKey];
         if (!outEntityDef) { setLoading(false); return; }
 
-        // Create child nodes for each result
         let counter = nodeCounter;
         const newNodes = [];
         const newEdges = [];
@@ -248,18 +235,19 @@ function Flow() {
           const spread = 120;
           const xOffset = idx === 0 ? 0 : idx % 2 === 0 ? (idx / 2) * spread : -Math.ceil(idx / 2) * spread;
 
-          // Map result keys into the entity attributes template
+          // Merge template + all record keys (supports dynamic OI Module attrs)
           const attrs = { ...outEntityDef.attributes };
-          for (const key of Object.keys(attrs)) {
-            if (record[key] !== undefined) attrs[key] = String(record[key]);
+          for (const [key, val] of Object.entries(record)) {
+            if (val !== undefined && val !== null && val !== '') attrs[key] = String(val);
           }
 
-          // Build a descriptive label
           let label = `${outEntityDef.name} ${counter}`;
           if (attrs.first_name && attrs.last_name) {
             label = `${attrs.first_name} ${attrs.last_name}`;
           } else if (attrs.first_name) {
             label = attrs.first_name;
+          } else if (attrs.module) {
+            label = attrs.module;
           } else if (attrs[outEntityDef.searchKey]) {
             label = attrs[outEntityDef.searchKey];
           } else if (attrs.reference_number) {
@@ -297,7 +285,6 @@ function Flow() {
           return updated;
         });
       } catch (err) {
-        console.error('[transform error]', err);
         alert(`Transform failed: ${err.message}`);
       }
 
@@ -306,7 +293,6 @@ function Flow() {
     [nodes, nodeCounter, setNodes, setEdges],
   );
 
-  // ── Delete All ──
   const handleDeleteAll = useCallback(() => {
     setNodes([]);
     setEdges([]);

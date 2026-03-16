@@ -2,25 +2,13 @@ import React from 'react';
 import './ContextMenu.css';
 
 export default function ContextMenu({
-  id,
-  top,
-  left,
-  right,
-  bottom,
-  menuType, // 'node' | 'canvas'
+  id, top, left, right, bottom,
+  menuType,
   nodeData,
-  onAddChild,
-  onEditEntity,
-  onDeleteEntity,
-  onDeleteDescendants,
-  onAddStandalone,
-  onRunTransform,
-  onClose,
-  entityTypes,
-  availableTransforms,
-  canvasPosition,
+  onAddChild, onEditEntity, onDeleteEntity, onDeleteDescendants,
+  onAddStandalone, onRunTransform, onClose,
+  entityTypes, availableTransforms, canvasPosition,
 }) {
-  // Canvas right-click: add new standalone entity
   if (menuType === 'canvas') {
     return (
       <div style={{ top, left, right, bottom }} className="context-menu" onClick={(e) => e.stopPropagation()}>
@@ -35,22 +23,18 @@ export default function ContextMenu({
     );
   }
 
-  // Node right-click
   return (
     <div style={{ top, left, right, bottom }} className="context-menu" onClick={(e) => e.stopPropagation()}>
-      {/* Edit Entity */}
       <button className="menu-item edit-item" onClick={() => onEditEntity(id, nodeData)}>
         <i className="fa-solid fa-pen-to-square" style={{ marginRight: '8px', fontSize: '11px' }}></i>
         Edit Entity
       </button>
 
-      {/* Delete Entity */}
       <button className="menu-item delete-item" onClick={() => onDeleteEntity(id)}>
         <i className="fa-solid fa-trash" style={{ marginRight: '8px', fontSize: '11px' }}></i>
         Delete Entity
       </button>
 
-      {/* Delete All Descendants */}
       <button className="menu-item delete-item" onClick={() => onDeleteDescendants(id)}>
         <i className="fa-solid fa-diagram-predecessor" style={{ marginRight: '8px', fontSize: '11px' }}></i>
         Delete All Descendants
@@ -58,7 +42,6 @@ export default function ContextMenu({
 
       <div className="menu-divider"></div>
 
-      {/* Add Child Node */}
       <div className="menu-title">Add Child Node</div>
       {Object.entries(entityTypes).map(([key, entity]) => (
         <button key={key} className="menu-item" onClick={() => onAddChild(id, key)}>
@@ -67,7 +50,6 @@ export default function ContextMenu({
         </button>
       ))}
 
-      {/* Transforms */}
       {availableTransforms && availableTransforms.length > 0 && (
         <>
           <div className="menu-divider"></div>

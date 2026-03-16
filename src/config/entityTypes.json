@@ -102,5 +102,27 @@
     "attributes": {
       "email": ""
     }
+  },
+  "username": {
+    "id": 8,
+    "name": "Username",
+    "icon": "fa-solid fa-at",
+    "color": "#a855f7",
+    "searchKey": "username",
+    "attributes": {
+      "username": ""
+    }
+  },
+  "oi_module": {
+    "id": 9,
+    "name": "OI Module",
+    "icon": "fa-solid fa-globe",
+    "color": "#f97316",
+    "searchKey": "module",
+    "attributes": {
+      "module": "",
+      "category": "",
+      "status": ""
+    }
   }
 }

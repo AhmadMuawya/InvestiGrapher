@@ -1,26 +1,19 @@
-/**
- * Transform registry — maps functionName strings to actual functions.
- * This keeps the transform config (JSON) fully decoupled from implementation.
- */
+// Transform registry — maps config function names to implementations
 import searchPerson from './searchPerson';
 import searchTransactions from './searchTransactions';
+import { emailLookup, nameLookup, usernameLookup, phoneLookup } from './osintLookup';
 
 const registry = {
   searchPerson,
   searchTransactions,
+  emailLookup,
+  nameLookup,
+  usernameLookup,
+  phoneLookup,
 };
 
-/**
- * Run a transform by its functionName.
- * @param {string} functionName
- * @param {object} attributes — source entity attributes
- * @returns {Promise<object[]>} array of result records
- */
 export async function runTransform(functionName, attributes) {
   const fn = registry[functionName];
-  if (!fn) {
-    console.error(`[transforms] Unknown function: ${functionName}`);
-    return [];
-  }
+  if (!fn) return [];
   return fn(attributes);
 }

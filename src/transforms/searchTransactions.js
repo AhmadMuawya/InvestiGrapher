@@ -1,15 +1,8 @@
-/**
- * searchTransactions — port of gettransaction.py
- *
- * Takes an entity's attributes (needs phone_number or national_id),
- * finds linked accounts, fetches transactions above threshold,
- * and returns enriched transaction records.
- */
+// Finds accounts by national_id/phone, fetches transactions above threshold,
+// and enriches each with sender/receiver details
 import { BASE_URL, supabaseGet } from '../services/supabase';
 
 const DEFAULT_THRESHOLD = 20_000_000;
-
-// ── Internal helpers with caching ──
 
 const cache = { accounts: {}, persons: {}, banks: {} };
 
@@ -87,7 +80,6 @@ async function buildPartyInfo(accountId, label) {
 }
 
 async function formatTransactions(transactions) {
-  // Parallelise party info lookups per transaction
   return Promise.all(
     transactions.map(async (tx) => {
       const [sender, receiver] = await Promise.all([
@@ -109,20 +101,14 @@ async function formatTransactions(transactions) {
   );
 }
 
-// ── Public API ──
-
-/**
- * @param {object} attributes — the source node's entity attributes
- * @returns {Promise<object[]>} enriched transaction records
- */
 export default async function searchTransactions(attributes) {
   clearCache();
   const threshold = DEFAULT_THRESHOLD;
 
-  // Determine search field: prefer national_id, fallback to phone_number
   const nationalId = attributes.national_id || '';
   const phone = attributes.phone_number || '';
 
+  // Prefer national_id, fallback to phone
   let accounts = [];
   if (nationalId) {
     accounts = await getAccountsByField('national_id', nationalId);
@@ -130,12 +116,9 @@ export default async function searchTransactions(attributes) {
   if (accounts.length === 0 && phone) {
     accounts = await getAccountsByField('phone_number', phone);
   }
-  if (accounts.length === 0) {
-    console.warn('[searchTransactions] No accounts found');
-    return [];
-  }
+  if (accounts.length === 0) return [];
 
-  // Collect unique transactions across all accounts (parallelised)
+  // Deduplicate transactions across all accounts
   const seenIds = new Set();
   const allTxs = [];
   const txBatches = await Promise.all(
@@ -150,6 +133,5 @@ export default async function searchTransactions(attributes) {
     }
   }
 
-  console.log(`[searchTransactions] ${allTxs.length} transaction(s) found`);
   return formatTransactions(allTxs);
 }
