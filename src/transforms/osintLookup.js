@@ -1,10 +1,16 @@
-// OSINT Industries lookups — calls /api/osint (Vite proxy)
+// OSINT Industries lookups — calls the API directly with api-key header
 // Extracts found modules and flattens spec_format into dynamic attributes
 
+const OI_API_KEY = import.meta.env.VITE_OI_API_KEY;
+
 async function osintRequest(type, query) {
-  const res = await fetch('/api/osint', {
+  const res = await fetch('https://api.osint.industries/v2/request', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'accept': 'application/json',
+      'content-type': 'application/json',
+      'api-key': OI_API_KEY,
+    },
     body: JSON.stringify({
       type,
       query,
@@ -19,7 +25,6 @@ async function osintRequest(type, query) {
   const data = await res.json();
   if (!Array.isArray(data)) return [];
 
-  // Keep only "found" results
   return data
     .filter((item) => item.status === 'found')
     .map((item) => {
